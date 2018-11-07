@@ -2,7 +2,6 @@ import React from 'react';
 import {store} from '../store/configureStore';
 import { Table } from 'antd';
 import 'antd/lib/table/style/css';
-import uuid from 'uuid';
 
 class OtherUsers extends React.Component {
     constructor(props){
@@ -14,11 +13,12 @@ class OtherUsers extends React.Component {
         let filtersLastName = [];
         const users = store.getState();
         var actualUser = users.authentication.user;
+        actualUser.key = actualUser.id;
         delete actualUser['token'];
 
         var usersArr = users.users.items.filter(data => {
             delete data['password'];
-            data.key = uuid();
+            data.key = data.id
             return JSON.stringify(data) !== JSON.stringify(actualUser)
         })
         usersArr.map(data => {

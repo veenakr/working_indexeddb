@@ -17,6 +17,7 @@ class Login extends React.Component {
 
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onSignUp = this.onSignUp.bind(this);
         
         this.onEmailChange = this.onEmailChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
@@ -77,6 +78,10 @@ class Login extends React.Component {
         }));
     }
 
+    onSignUp() {
+        this.props.history.push('/signup');
+    }
+
     render() {
         const { email, password , err} = this.state;
         return (
@@ -97,6 +102,7 @@ class Login extends React.Component {
 
                 </form>
                 <button className="cancelbtn" onClick={this.handleCancel}>clear</button>
+                <button className="loginButton" type="submit" onClick={this.onSignUp}>SignUp</button>
             </div>
         )
     }

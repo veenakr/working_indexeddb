@@ -4,6 +4,9 @@ import Login from './components/Login';
 import DashBoard from './components/Dashboard';
 import { history } from './helpers/history';
 import { connect } from 'react-redux';
+import SignUp from './components/SignUp';
+import Table from './components/Table';
+import OtherUsers from './components/OtherUsers';
 
 class App extends React.Component {
     render() {
@@ -11,8 +14,11 @@ class App extends React.Component {
         return (
             <Router history={history}>
                 <div>
-                  <Route path="/index.html" component={Login} />
-                    {user1 ? <Route path="/" component={DashBoard} user={user1}/> : <Route path="/" component={Login} exact={true} />}
+                  <Route path="/index.html" exact component={Login} />
+                    {user1 ? <Route path="/" component={DashBoard} exact user={user1}/> : <Route path="/" component={Login} exact={true} />}
+                    <Route path="/signup" component={SignUp} exact={true}/>
+                    <Route path="/userInfo" component={Table} exact={true}/>
+                    <Route path="/other" component={OtherUsers} exact={true} />
                 </div>
             </Router>
         )

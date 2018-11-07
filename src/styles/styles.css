@@ -67,3 +67,15 @@ span.psw {
 label, .error {
     color: black;
 }
+
+.err {
+    color: red;
+    font-style: italic;
+}
+
+.display {
+    padding: 20px 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}

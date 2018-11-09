@@ -2,6 +2,8 @@ const users = [];
 
 export function configureFakeBackend() {
 
+    // window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+
     let request = window.indexedDB.open("LoginPage", 1),
             db,
             tx,
@@ -18,6 +20,7 @@ export function configureFakeBackend() {
 
     request.onsuccess = function(e) {
         db = request.result;
+        console.log(db);
         tx = db.transaction("UserDataStore", "readwrite");
         store = tx.objectStore("UserDataStore");
         index = store.index("firstName");
@@ -36,6 +39,8 @@ export function configureFakeBackend() {
             db.close()        
         }
     }
+
+    console.log(users);
 
     let realFetch = window.fetch;
     window.fetch = function (url, opts) {

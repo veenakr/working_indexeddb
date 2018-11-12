@@ -39,6 +39,10 @@ function login(email, password) {
                 error => {
                     dispatch(failure(error));
                     console.log(error);
+                    history.push({
+                        pathname: '/error',
+                        state: error
+                    })
                 }
             );
     };

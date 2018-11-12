@@ -11,10 +11,48 @@ import {store} from '../store/configureStore';
 
 const { Meta } = Card;
 
+const gridStyle = {
+  width: '25%',
+  textAlign: 'center',
+};
+
+const tabList = [{
+  key: 'tab1',
+  tab: 'tab1',
+}, {
+  key: 'tab2',
+  tab: 'tab2',
+}];
+
+const contentList = {
+  tab1: <p>User</p>,
+  tab2: <p>Logged in</p>,
+};
+
+const UserDetails = [{
+  key: 'email',
+  tab: 'email',
+}, {
+  key: 'firstName',
+  tab: 'firstName',
+}, {
+  key: 'lastName',
+  tab: 'lastName',
+}];
+
+
 
 class Table1 extends React.Component {
+
   state = {
-    loading: true
+    loading: true,
+    key: 'tab1',
+    noTitleKey: 'app'
+  }
+
+
+  onTabChange = (key, type) => {
+    this.setState({ [type]: key });
   }
 
   onChange = (checked) => {
@@ -24,6 +62,11 @@ class Table1 extends React.Component {
     render() {
       const { loading } = this.state;
       const user = store.getState();
+      const contentListNoTitle = {
+        email: <p>{user.authentication.user.email}</p>,
+        firstName: <p>{user.authentication.user.firstName}</p>,
+        lastName: <p>{user.authentication.user.lastName}</p>,
+      };
         return (
           <div>
             <h3 className="display">Displaying User information in different card patterns</h3>
@@ -94,10 +137,85 @@ class Table1 extends React.Component {
             />
           </Skeleton>
         </Card>
-      </div>
-
+      
+    
+        <Card title="User logged in" style={{marginTop: 30 }}>
+          <Card.Grid style={gridStyle}>User info</Card.Grid>
+          <Card.Grid style={gridStyle}>{user.authentication.user.email}</Card.Grid>
+          <Card.Grid style={gridStyle}>{user.authentication.user.firstName}</Card.Grid>
+          <Card.Grid style={gridStyle}>{user.authentication.user.lastName}</Card.Grid>
+          <Card.Grid style={gridStyle}>{user.authentication.user.id}</Card.Grid>
+          <Card.Grid style={gridStyle}>Grid card</Card.Grid>
+        </Card>
+      
+    
           
+          <div>
+            <Card title="User info" style={{marginTop: 30 }}>
+              <p
+                style={{
+                  fontSize: 14,
+                  color: 'rgba(0, 0, 0, 0.85)',
+                  marginBottom: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Logged in User
+              </p>
+              <Card
+                type="inner"
+                title="First Name"
+                extra={<a href="#">More</a>}
+              >
+              {user.authentication.user.firstName}
+                
+              </Card>
+              <Card
+                style={{ marginTop: 16 }}
+                type="inner"
+                title="Last Name"
+                extra={<a href="#">More</a>}
+              >
+                {user.authentication.user.lastName}
+              </Card>
+            </Card>
           </div>
+
+            <Card 
+              style={{ width: '100%' }}
+              title="User info"
+              extra={<a href="#">More</a>}
+              tabList={tabList}
+              activeTabKey={this.state.key}
+              onTabChange={(key) => { this.onTabChange(key, 'key'); }}
+            >
+              {contentList[this.state.key]}
+            </Card>
+            <br /><br />
+            <Card
+              style={{ width: '100%', marginTop: 30 }}
+              tabList={UserDetails}
+              activeTabKey={this.state.noTitleKey}
+              onTabChange={(key) => { this.onTabChange(key, 'noTitleKey'); }}
+            >
+              {contentListNoTitle[this.state.noTitleKey]}
+            </Card>
+          </div>
+
+            <Card
+              style={{ width: 300, marginTop: 30 }}
+              cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+              actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+            >
+              <Meta
+                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                title="User info"
+                description="This is a type of card"
+              />
+            </Card>
+          </div>
+          
+          
         )
     }
 }

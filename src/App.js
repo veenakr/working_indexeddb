@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import SignUp from './components/SignUp';
 import Table from './components/Table';
 import OtherUsers from './components/OtherUsers';
+import Error1 from './components/Error';
 
 
 class App extends React.Component {
@@ -20,6 +21,7 @@ class App extends React.Component {
                     <Route path="/signup" component={SignUp} exact={true}/>
                     <Route path="/userInfo" component={Table} exact={true}/>
                     <Route path="/other" component={OtherUsers} exact={true} />
+                    <Route path="/error" component={Error1} exact={true} />
                 </div>
             </Router>
         )

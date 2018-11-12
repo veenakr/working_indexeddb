@@ -2,7 +2,9 @@ const users = [];
 
 export function configureFakeBackend() {
 
-    // window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+    if(!window.indexedDB){
+        console.log("not supported");
+    }
 
     let request = window.indexedDB.open("LoginPage", 1),
             db,
@@ -11,7 +13,9 @@ export function configureFakeBackend() {
             index;
 
     request.onupgradeneeded = function(e) {
-        db = request.result
+        db = request.result;
+        store = db.createObjectStore('UserDataStore', { keyPath: 'id', autoIncrement: true});
+        index = store.createIndex("firstName", "firstName", { unique: false });
     }
 
     request.onerror = function(e) {
@@ -20,7 +24,6 @@ export function configureFakeBackend() {
 
     request.onsuccess = function(e) {
         db = request.result;
-        console.log(db);
         tx = db.transaction("UserDataStore", "readwrite");
         store = tx.objectStore("UserDataStore");
         index = store.index("firstName");
@@ -30,6 +33,10 @@ export function configureFakeBackend() {
         }
     
         let q1 = store.getAll();
+
+        tx.onerror = function(e) {
+            console.log(e.target);
+        }
     
         q1.onsuccess = function() {
             q1.result.map(data => users.push(data));
@@ -39,8 +46,6 @@ export function configureFakeBackend() {
             db.close()        
         }
     }
-
-    console.log(users);
 
     let realFetch = window.fetch;
     window.fetch = function (url, opts) {
